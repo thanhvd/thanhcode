@@ -1,5 +1,5 @@
 <?php
 
-Route::get('test', function () {
-    return 'Hello World';
+Route::group(['prefix' => 'money-manager', 'namespace' => 'App\Modules\MoneyManager\Controllers'], function() {
+	Route::resource('category', 'CategoryController');
 });
