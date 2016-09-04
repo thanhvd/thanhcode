@@ -7,14 +7,14 @@ use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
+    /**trans
      * Bootstrap any application services.
      *
      * @return void
      */
     public function boot()
     {
-        View::share('key', 'value');
+        //
     }
 
     /**

@@ -32,6 +32,12 @@ class ModuleServiceProvider extends ServiceProvider {
                 if($this->files->exists($helper)) include $helper;
                 if($this->files->isDirectory($views)) $this->loadViewsFrom($views, $module);
                 if($this->files->isDirectory($trans)) $this->loadTranslationsFrom($trans, $module);
+
+                // Load the app breadcrumbs if they're in routes/breadcrumbs.php (Laravel 5.3)
+                if (file_exists($file = app_path().'/Modules/'.$module.'/breadcrumbs.php'))
+                {
+                    require $file;
+                }
             }
         }
 
