@@ -5,9 +5,13 @@ Breadcrumbs::register('home', function($breadcrumbs) {
     $breadcrumbs->push('Home', route('home'));
 });
 
-// Photos
-Breadcrumbs::register('category.index', function($breadcrumbs)
-{
+// Categories
+Breadcrumbs::register('categories.index', function($breadcrumbs) {
     $breadcrumbs->parent('home');
-    $breadcrumbs->push('Categories', route('category.index'));
+    $breadcrumbs->push('Categories Index', route('categories.index'));
+});
+
+Breadcrumbs::register('categories.create', function($breadcrumbs) {
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Categories Create', route('categories.create'));
 });
