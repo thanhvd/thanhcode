@@ -3,6 +3,7 @@
 namespace App\Modules\MoneyManager\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreMoneyManagerCategory;
 use App\Modules\MoneyManager\Models\Category;
 use Illuminate\Http\Request;
 
@@ -36,9 +37,11 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreMoneyManagerCategory $request)
     {
-        dd($request);
+        // $inputs = $request->only(['name', 'avatar']);
+
+        // dd($request->only(['name', 'avatar']));
     }
 
     /**

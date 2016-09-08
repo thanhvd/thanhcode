@@ -16,6 +16,18 @@
             <!-- form start -->
             <form role="form" action="{{ route('categories.store') }}" method="post" enctype="multipart/form-data">
               <div class="box-body">
+                @if (count($errors) > 0)
+                {{ dd($errors->all()) }}
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+                {{ csrf_field() }}
                 <div class="form-group">
                   <label for="name">Name</label>
                   <input type="text" class="form-control" name="name" id="name" placeholder="Enter name">
