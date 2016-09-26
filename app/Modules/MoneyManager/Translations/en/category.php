@@ -13,6 +13,18 @@ return [
     |
     */
 
-    'test' => 'These credentials do not match our records.',
+    'index' => [
+
+    ],
+    'create' => [
+        'title' => 'Create new Category',
+        'labels' => [
+            'name' => 'Name',
+            'avatar' => 'Avatar'
+        ],
+        'placeholders' => [ 'name' => 'Enter name' ],
+        'descriptions' => [ 'avatar' => 'Upload avatar of this category' ],
+        'buttons' => [ 'submit' => 'Submit' ]
+    ]
 
 ];
