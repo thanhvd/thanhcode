@@ -39,12 +39,24 @@ class CategoryController extends Controller
      */
     public function store(StoreMoneyManagerCategory $request)
     {
-        $category = new Category;
-        $category->name = $request->name;
-        $category->save();
-        // redirect
-        session()->put('message', 'Successfully created nerd!');
-        return redirect()->route('categories.index');
+        try {
+            // Save category
+            $category = new Category;
+            $category->name = $request->name;
+            // Check avatar uploaded?
+            if ($request->hasFile('avatar')) {
+                $avatar = $request->file('avatar')->store(
+                    config('money_manager.category.avatar_storage_path') . '/' . $request->user()->id
+                );
+                $category->avatar = $avatar;
+            }
+            $category->save();
+            // redirect
+            session()->put('message', 'Successfully created nerd!');
+            return redirect()->route('categories.index');
+        } catch(Exception $e) {
+
+        }
     }
 
     /**
