@@ -24,7 +24,8 @@ return [
         ],
         'placeholders' => [ 'name' => 'Enter name' ],
         'descriptions' => [ 'avatar' => 'Upload avatar of this category' ],
-        'buttons' => [ 'submit' => 'Submit' ]
+        'buttons' => [ 'submit' => 'Submit' ],
+        'success' => 'Successfully created category'
     ]
 
 ];

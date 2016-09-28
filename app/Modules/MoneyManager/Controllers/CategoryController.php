@@ -2,6 +2,7 @@
 
 namespace App\Modules\MoneyManager\Controllers;
 
+use Auth;
 use App\Http\Controllers\Controller;
 use App\Modules\MoneyManager\Requests\StoreMoneyManagerCategory;
 use App\Modules\MoneyManager\Models\Category;
@@ -39,24 +40,21 @@ class CategoryController extends Controller
      */
     public function store(StoreMoneyManagerCategory $request)
     {
-        try {
-            // Save category
-            $category = new Category;
-            $category->name = $request->name;
-            // Check avatar uploaded?
-            if ($request->hasFile('avatar')) {
-                $avatar = $request->file('avatar')->store(
-                    config('money_manager.category.avatar_storage_path') . '/' . $request->user()->id
-                );
-                $category->avatar = $avatar;
-            }
-            $category->save();
-            // redirect
-            session()->put('message', 'Successfully created nerd!');
-            return redirect()->route('categories.index');
-        } catch(Exception $e) {
-
+        // Save category
+        $category = new Category;
+        $category->user_id = Auth::user()->id;
+        $category->name = $request->name;
+        // Check avatar uploaded?
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar')->store(
+                config('money_manager.category.avatar_storage_path') . '/' . $request->user()->id
+            );
+            $category->avatar = $avatar;
         }
+        $category->save();
+        // redirect
+        session()->put('message', trans('MoneyManager::category.create.success'));
+        return redirect()->route('categories.index');
     }
 
     /**
