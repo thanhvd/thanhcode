@@ -17,8 +17,8 @@
           <h3 class="box-title">{{ trans('MoneyManager::category.index.title') }}</h3>
         </div>
         <!-- /.box-header -->
-        <div class="box-body no-padding">
-          <table class="table table-striped">
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-striped table-hover">
             <thead>
             <tr>
               <th style="width: 10px">#</th>
