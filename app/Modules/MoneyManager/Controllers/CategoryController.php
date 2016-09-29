@@ -17,9 +17,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::paginate(15);
 
-        return view('MoneyManager::category.index');
+        return view('MoneyManager::category.index', [
+            'categories' => $categories
+        ]);
     }
 
     /**

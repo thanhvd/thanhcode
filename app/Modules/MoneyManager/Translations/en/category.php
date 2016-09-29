@@ -14,7 +14,14 @@ return [
     */
 
     'index' => [
-
+        'title' => 'Categories list',
+        'table' => [
+            'head' => [
+                'name' => 'Name',
+                'avatar' => 'Avatar',
+                'parent' => 'Parent'
+            ]
+        ]
     ],
     'create' => [
         'title' => 'Create new Category',
