@@ -49,7 +49,8 @@ class CategoryController extends Controller
         // Check avatar uploaded?
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar')->store(
-                config('money_manager.category.avatar_storage_path') . '/' . $request->user()->id
+                config('money_manager.category.avatar_storage_path') . '/' . $request->user()->id,
+                'public'
             );
             $category->avatar = $avatar;
         }

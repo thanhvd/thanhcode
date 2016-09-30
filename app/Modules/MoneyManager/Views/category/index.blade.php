@@ -29,15 +29,15 @@
             </tr>
             </thead>
             <tbody>
-                @foreach ($categories as $category)
-                    <tr>
-                        <td>{{ $loop->index + 1 }}.</td>
-                        <td>{{ $category->name }}</td>
-                        <td>{{ $category->avatar }}</td>
-                        <td>{{ $category->category_id }}</td>
-                        <td></td>
-                    </tr>
-                @endforeach
+              @foreach ($categories as $category)
+                <tr>
+                  <td>{{ $loop->index + 1 }}.</td>
+                  <td>{{ $category->name }}</td>
+                  <td><img src="{{ asset('storage/'.$category->avatar) }}" /></td>
+                  <td>{{ $category->category_id }}</td>
+                  <td></td>
+                </tr>
+              @endforeach
             </tbody>
           </table>
         </div>
