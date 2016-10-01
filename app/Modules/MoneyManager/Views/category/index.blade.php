@@ -33,7 +33,13 @@
                 <tr>
                   <td>{{ $loop->index + 1 }}.</td>
                   <td>{{ $category->name }}</td>
-                  <td><img src="{{ asset('storage/'.$category->avatar) }}" /></td>
+                  <td>
+                    @if ($category->avatar)
+                      <img src="{{ asset('storage/'.$category->avatar) }}" />
+                    @else
+                      <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
+                    @endif
+                  </td>
                   <td>{{ $category->category_id }}</td>
                   <td></td>
                 </tr>

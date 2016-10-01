@@ -55,8 +55,8 @@ class CategoryController extends Controller
             $category->avatar = $avatar;
         }
         $category->save();
-        // redirect
-        session()->put('message', trans('MoneyManager::category.create.success'));
+        $request->session()->flash('message', trans('MoneyManager::category.create.success'));
+
         return redirect()->route('categories.index');
     }
 
