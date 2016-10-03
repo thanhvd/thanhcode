@@ -18,9 +18,10 @@ class CreateMmCategoriesTable extends Migration
             $table->string('name');
             $table->string('avatar')->nullable();
             $table->integer('user_id')->unsigned()->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('category_id')->unsigned()->nullable();
-            $table->foreign('category_id')->references('id')->on('mm_categories')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('parent_id')->unsigned()->nullable();
+            $table->foreign('parent_id')->references('id')->on('mm_categories');
+            $table->smallInteger('level')->unsigned()->default(0);
             $table->timestamps();
         });
     }

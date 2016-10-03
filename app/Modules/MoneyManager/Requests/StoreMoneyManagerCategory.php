@@ -25,7 +25,8 @@ class StoreMoneyManagerCategory extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'avatar' => 'file|max:1024'
+            'avatar' => 'file|max:1024',
+            'parent_id' => 'integer|exists:mm_categories,id'
         ];
     }
 }

@@ -27,6 +27,7 @@
                     </ul>
                 </div>
                 @endif
+
                 {{ csrf_field() }}
                 <div class="form-group">
                   <label for="name">{{ trans('MoneyManager::category.create.labels.name') }}</label>
@@ -38,6 +39,15 @@
 
                   <p class="help-block">{{ trans('MoneyManager::category.create.descriptions.avatar') }}</p>
                 </div>
+                <div class="form-group">
+                  <label for="name">{{ trans('MoneyManager::category.create.labels.parent') }}</label>
+                  <select class="form-control select2" style="width: 100%" name="parent_id">
+                    <option value="">-- {{ trans('MoneyManager::category.create.labels.select_parent') }} --</option>
+                    @foreach ($categories as $id => $name)
+                      <option value="{{ $id }}">{{ $name }}</option>
+                    @endforeach
+                  </select>
+                </div>
               </div>
               <!-- /.box-body -->
               <div class="box-footer">
@@ -48,4 +58,13 @@
           <!-- /.box -->
         </div>
     </div>
+@endsection
+
+@section('page_script')
+<script>
+  $(function () {
+    //Initialize Select2 Elements
+    $(".select2").select2();
+  });
+</script>
 @endsection

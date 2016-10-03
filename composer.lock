@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "604db5c1632f2aad139b9bb75a09bb10",
-    "content-hash": "47decec819878948bfb6e1ea4c9806dc",
+    "hash": "21c77a2624e7f649d5147b239f9c71ea",
+    "content-hash": "dae31b597eb159191b3abe8bc438c235",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -733,6 +733,42 @@
                 "time"
             ],
             "time": "2015-11-04 20:07:17"
+        },
+        {
+            "name": "ngoctp/laravel-query-logger",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ngoctp/laravel-query-logger.git",
+                "reference": "e90c801ba70937a78a05bb82a76020f1c567aea5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ngoctp/laravel-query-logger/zipball/e90c801ba70937a78a05bb82a76020f1c567aea5",
+                "reference": "e90c801ba70937a78a05bb82a76020f1c567aea5",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "~5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "NgocTP\\QueryLogger\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tran Phuong Ngoc",
+                    "email": "phuongngoc@gmail.com"
+                }
+            ],
+            "description": "Log database queries for Laravel project",
+            "time": "2016-07-06 04:46:29"
         },
         {
             "name": "nikic/php-parser",

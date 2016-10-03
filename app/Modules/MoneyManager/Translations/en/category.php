@@ -27,7 +27,9 @@ return [
         'title' => 'Create new Category',
         'labels' => [
             'name' => 'Name',
-            'avatar' => 'Avatar'
+            'avatar' => 'Avatar',
+            'parent' => 'Parent',
+            'select_parent' => 'Select parent'
         ],
         'placeholders' => [ 'name' => 'Enter name' ],
         'descriptions' => [ 'avatar' => 'Upload avatar of this category' ],

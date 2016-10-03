@@ -168,6 +168,7 @@ return [
          */
 
         App\Providers\ModuleServiceProvider::class,
+        NgocTP\QueryLogger\ServiceProvider::class,
 
         /*
          * Application Service Providers...

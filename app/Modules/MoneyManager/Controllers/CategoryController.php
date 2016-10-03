@@ -17,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::paginate(15);
+        $categories = Category::where('level', 0)->paginate(15);
 
         return view('MoneyManager::category.index', [
             'categories' => $categories
@@ -31,7 +31,11 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('MoneyManager::category.create');
+        $categories = Category::pluck('name', 'id');
+
+        return view('MoneyManager::category.create', [
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -53,6 +57,13 @@ class CategoryController extends Controller
                 'public'
             );
             $category->avatar = $avatar;
+        }
+        // Check parent selected?
+        if ($request->parent_id) {
+            $parent = Category::find($request->parent_id);
+
+            $category->parent_id = $parent->id;
+            $category->level = ++$parent->level;
         }
         $category->save();
         $request->session()->flash('message', trans('MoneyManager::category.create.success'));

@@ -21,11 +21,11 @@
           <table class="table table-striped table-hover">
             <thead>
             <tr>
-              <th style="width: 10px">#</th>
+              <th>#</th>
               <th>{{ trans('MoneyManager::category.index.table.head.name') }}</th>
               <th>{{ trans('MoneyManager::category.index.table.head.avatar') }}</th>
               <th>{{ trans('MoneyManager::category.index.table.head.parent') }}</th>
-              <th style="width: 40px">Label</th>
+              <th>Label</th>
             </tr>
             </thead>
             <tbody>
@@ -40,9 +40,26 @@
                       <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
                     @endif
                   </td>
-                  <td>{{ $category->category_id }}</td>
+                  <td>{{ $category->parent ? $category->parent->name : '' }}</td>
                   <td></td>
                 </tr>
+                @if (count($category->children) > 0)
+                  @foreach ($category->children as $children)
+                  <tr>
+                    <td>{{ $loop->index + 1 }}.</td>
+                    <td>{{ $children->name }}</td>
+                    <td>
+                      @if ($children->avatar)
+                        <img src="{{ asset('storage/'.$children->avatar) }}" />
+                      @elsechildren
+                        <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
+                      @endif
+                    </td>
+                    <td>{{ $children->parent ? $children->parent->name : '' }}</td>
+                    <td></td>
+                  </tr>
+                  @endforeach
+                @endif
               @endforeach
             </tbody>
           </table>

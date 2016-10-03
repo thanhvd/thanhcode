@@ -19,7 +19,9 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <!-- DataTables -->
-    <link rel="stylesheet" href="../../plugins/datatables/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="plugins/select2/select2.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
@@ -70,13 +72,15 @@
     <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
     <!-- Bootstrap 3.3.6 -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- Select2 -->
+    <script src="plugins/select2/select2.full.min.js"></script>
     <!-- DataTables -->
-    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
     <!-- SlimScroll -->
-    <script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
-    <script src="../../plugins/fastclick/fastclick.js"></script>
+    <script src="plugins/fastclick/fastclick.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/app.min.js"></script>
 
