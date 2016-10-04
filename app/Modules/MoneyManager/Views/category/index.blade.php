@@ -24,50 +24,30 @@
               <th>#</th>
               <th>{{ trans('MoneyManager::category.index.table.head.name') }}</th>
               <th>{{ trans('MoneyManager::category.index.table.head.avatar') }}</th>
-              <th>{{ trans('MoneyManager::category.index.table.head.parent') }}</th>
-              <th>Label</th>
+              <th></th>
             </tr>
             </thead>
             <tbody>
               @foreach ($categories as $category)
                 <tr>
-                  <td>{{ $loop->index + 1 }}.</td>
-                  <td>{{ $category->name }}</td>
+                  <td style="width:10px">{{ $loop->index + 1 }}.</td>
+                  <td>{!! str_repeat('&nbsp;', $category->level * 10) !!} <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span> {{ $category->name }}</td>
                   <td>
                     @if ($category->avatar)
-                      <img src="{{ asset('storage/'.$category->avatar) }}" />
+                      <img src="{{ asset('storage/'.$category->avatar) }}" style="width:20px;height:20px" />
                     @else
-                      <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
+                      <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
                     @endif
                   </td>
-                  <td>{{ $category->parent ? $category->parent->name : '' }}</td>
-                  <td></td>
+                  <td>
+                      <a href="money-manager/categories/{{ $category->id }}/edit">Edit</a>
+                  </td>
                 </tr>
-                @if (count($category->children) > 0)
-                  @foreach ($category->children as $children)
-                  <tr>
-                    <td>{{ $loop->index + 1 }}.</td>
-                    <td>{{ $children->name }}</td>
-                    <td>
-                      @if ($children->avatar)
-                        <img src="{{ asset('storage/'.$children->avatar) }}" />
-                      @elsechildren
-                        <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
-                      @endif
-                    </td>
-                    <td>{{ $children->parent ? $children->parent->name : '' }}</td>
-                    <td></td>
-                  </tr>
-                  @endforeach
-                @endif
               @endforeach
             </tbody>
           </table>
         </div>
         <!-- /.box-body -->
-        <div class="box-footer clearfix">
-          {{ $categories->links() }}
-        </div>
       </div>
       <!-- /.box -->
     </div>

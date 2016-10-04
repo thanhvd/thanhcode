@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('title', trans('MoneyManager::category.create.title'))
-@section('page_header', 'Category')
-@section('page_header_description', 'Create')
+@section('page_header', trans('MoneyManager::category.create.page_header'))
+@section('page_header_description', trans('MoneyManager::category.create.page_header_description'))
 
 @section('content')
     <div class="row">
@@ -43,8 +43,8 @@
                   <label for="name">{{ trans('MoneyManager::category.create.labels.parent') }}</label>
                   <select class="form-control select2" style="width: 100%" name="parent_id">
                     <option value="">-- {{ trans('MoneyManager::category.create.labels.select_parent') }} --</option>
-                    @foreach ($categories as $id => $name)
-                      <option value="{{ $id }}">{{ $name }}</option>
+                    @foreach ($categories as $item)
+                      <option value="{{ $item->id }}">{!! str_repeat('&nbsp;', $item->level * 10) !!} -- {{ $item->name }}</option>
                     @endforeach
                   </select>
                 </div>

@@ -25,6 +25,8 @@ return [
     ],
     'create' => [
         'title' => 'Create new Category',
+        'page_header' => 'Category',
+        'page_header_description' => 'Create',
         'labels' => [
             'name' => 'Name',
             'avatar' => 'Avatar',
@@ -35,6 +37,21 @@ return [
         'descriptions' => [ 'avatar' => 'Upload avatar of this category' ],
         'buttons' => [ 'submit' => 'Submit' ],
         'success' => 'Successfully created category'
+    ],
+    'edit' => [
+        'title' => 'Edit new Category',
+        'page_header' => 'Category',
+        'page_header_description' => 'Edit',
+        'labels' => [
+            'name' => 'Name',
+            'avatar' => 'Avatar',
+            'parent' => 'Parent',
+            'select_parent' => 'Select parent'
+        ],
+        'placeholders' => [ 'name' => 'Enter name' ],
+        'descriptions' => [ 'avatar' => 'Upload avatar of this category' ],
+        'buttons' => [ 'submit' => 'Submit' ],
+        'success' => 'Successfully edited category'
     ]
 
 ];

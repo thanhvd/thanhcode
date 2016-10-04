@@ -2,10 +2,11 @@
 
 namespace App\Modules\MoneyManager\Controllers;
 
-use Auth;
 use App\Http\Controllers\Controller;
-use App\Modules\MoneyManager\Requests\StoreMoneyManagerCategory;
 use App\Modules\MoneyManager\Models\Category;
+use App\Modules\MoneyManager\Repositories\CategoryRepository;
+use App\Modules\MoneyManager\Requests\StoreMoneyManagerCategory;
+use Auth;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -17,7 +18,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::where('level', 0)->paginate(15);
+        $categories = CategoryRepository::getTreeData();
 
         return view('MoneyManager::category.index', [
             'categories' => $categories
@@ -31,7 +32,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::pluck('name', 'id');
+        $categories = CategoryRepository::getTreeData();
 
         return view('MoneyManager::category.create', [
             'categories' => $categories
@@ -90,7 +91,13 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::find($id);
+        $categories = CategoryRepository::getTreeData();
+
+        return view('MoneyManager::category.edit', [
+            'category' => $category,
+            'categories' => $categories
+        ]);
     }
 
     /**
