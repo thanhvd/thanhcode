@@ -6,7 +6,7 @@ use App\Modules\MoneyManager\Models\Category;
 
 class CategoryRepository
 {
-    public static function getTreeData(int $level = 0, Category $excludeChildren = null)
+    public static function getTreeData($level = 0)
     {
         $data = [];
         $categories = Category::where('level', $level)->get();

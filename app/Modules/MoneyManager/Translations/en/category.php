@@ -21,7 +21,8 @@ return [
                 'avatar' => 'Avatar',
                 'parent' => 'Parent'
             ]
-        ]
+        ],
+        'confirm_message' => 'Are you sure you want to delete this category?'
     ],
     'create' => [
         'title' => 'Create new Category',
@@ -52,6 +53,10 @@ return [
         'descriptions' => [ 'avatar' => 'Upload avatar of this category' ],
         'buttons' => [ 'submit' => 'Submit' ],
         'success' => 'Successfully edited category'
+    ],
+    'delete' => [
+        'success' => 'Successfully deleted category',
+        'children_exists' => 'Please delete children before delete this category'
     ]
 
 ];

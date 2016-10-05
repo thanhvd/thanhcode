@@ -15,7 +15,7 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form" action="{{ route('categories.store') }}" method="post" enctype="multipart/form-data">
+            <form role="form" action="{{ route('categories.update', ['id' => $category->id ]) }}" method="POST" enctype="multipart/form-data">
               <div class="box-body">
                 @if (count($errors) > 0)
                 <div class="alert alert-danger alert-dismissible">
@@ -29,6 +29,8 @@
                 @endif
 
                 {{ csrf_field() }}
+                {{ method_field('PUT') }}
+
                 <div class="form-group">
                   <label for="name">{{ trans('MoneyManager::category.edit.labels.name') }}</label>
                   <input type="text" class="form-control" name="name" id="name" placeholder="{{ trans('MoneyManager::category.edit.placeholders.name') }}" value="{{ $category->name }}">
@@ -45,9 +47,9 @@
                 <div class="form-group">
                   <label for="name">{{ trans('MoneyManager::category.edit.labels.parent') }}</label>
                   <select class="form-control select2" style="width: 100%" name="parent_id">
-                    <option value="">-- {{ trans('MoneyManager::category.edit.labels.select_parent') }} --</option>
+                    <option value="">{{ trans('MoneyManager::category.edit.labels.select_parent') }}</option>
                     @foreach ($categories as $item)
-                      <option value="{{ $item->id }}" {{ $item->parent && $item->parent->id == $category->parent_id ? 'selected' : '' }} >{!! str_repeat('&nbsp;', $item->level * 10) !!} -- {{ $item->name }}</option>
+                      <option value="{{ $item->id }}" {{ $item->id == $category->parent_id ? 'selected' : '' }} >{!! str_repeat('&nbsp;', $item->level * 10) !!} -- {{ $item->name }}</option>
                     @endforeach
                   </select>
                 </div>
@@ -67,7 +69,11 @@
 <script>
   $(function () {
     //Initialize Select2 Elements
-    $(".select2").select2();
+    $(".select2").select2({
+        templateSelection: function(data, container) {
+            return $.trim(data.text.replace(/\-/g, ''));
+        }
+    });
   });
 </script>
 @endsection

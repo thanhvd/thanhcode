@@ -42,7 +42,7 @@
                 <div class="form-group">
                   <label for="name">{{ trans('MoneyManager::category.create.labels.parent') }}</label>
                   <select class="form-control select2" style="width: 100%" name="parent_id">
-                    <option value="">-- {{ trans('MoneyManager::category.create.labels.select_parent') }} --</option>
+                    <option value="">{{ trans('MoneyManager::category.create.labels.select_parent') }}</option>
                     @foreach ($categories as $item)
                       <option value="{{ $item->id }}">{!! str_repeat('&nbsp;', $item->level * 10) !!} -- {{ $item->name }}</option>
                     @endforeach
@@ -64,7 +64,11 @@
 <script>
   $(function () {
     //Initialize Select2 Elements
-    $(".select2").select2();
+    $(".select2").select2({
+        templateSelection: function(data, container) {
+            return $.trim(data.text.replace(/\-/g, ''));
+        }
+    });
   });
 </script>
 @endsection

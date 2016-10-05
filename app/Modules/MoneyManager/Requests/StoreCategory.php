@@ -4,7 +4,7 @@ namespace App\Modules\MoneyManager\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreMoneyManagerCategory extends FormRequest
+class StoreCategory extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

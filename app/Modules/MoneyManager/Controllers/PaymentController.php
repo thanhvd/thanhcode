@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
-class CategoryController extends Controller
+class PaymentController extends Controller
 {
     /**
      * Display a listing of the resource.

@@ -34,13 +34,17 @@
                   <td>{!! str_repeat('&nbsp;', $category->level * 10) !!} <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span> {{ $category->name }}</td>
                   <td>
                     @if ($category->avatar)
-                      <img src="{{ asset('storage/'.$category->avatar) }}" style="width:20px;height:20px" />
+                      <a><img src="{{ asset('storage/'.$category->avatar) }}" style="width:20px;height:20px" /></a>
                     @else
-                      <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+                      <a><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></a>
                     @endif
                   </td>
                   <td>
-                      <a href="money-manager/categories/{{ $category->id }}/edit">Edit</a>
+                      <a href="{{ route('categories.edit', ['id' => $category->id ]) }}"><span class="glyphicon glyphicon-edit"  aria-hidden="true"></span></a>&nbsp;&nbsp;<a href="javascript:submitDeleteForm('delete-form-{{ $category->id }}')"><span class="glyphicon glyphicon-remove"  aria-hidden="true"></span></a>
+                      <form id="delete-form-{{ $category->id }}" role="form" action="{{ route('categories.destroy', ['id' => $category->id ]) }}" method="POST">
+                        {{ csrf_field() }}
+                        {{ method_field('DELETE') }}
+                      </form>
                   </td>
                 </tr>
               @endforeach
@@ -54,4 +58,14 @@
     <!-- /.col -->
   </div>
   <!-- /.row -->
+@endsection
+
+@section('page_script')
+<script type="text/javascript">
+    function submitDeleteForm(formId) {
+        if (confirm("{{ trans('MoneyManager::category.index.confirm_message') }}")) {
+            $('#' + formId).submit();
+        }
+    }
+</script>
 @endsection
