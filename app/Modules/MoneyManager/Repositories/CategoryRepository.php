@@ -3,13 +3,15 @@
 namespace App\Modules\MoneyManager\Repositories;
 
 use App\Modules\MoneyManager\Models\Category;
+use Auth;
 
 class CategoryRepository
 {
     public static function getTreeData($level = 0)
     {
         $data = [];
-        $categories = Category::where('level', $level)->get();
+
+        $categories = Auth::user()->categories()->where('level', $level)->get();
 
         if ( count($categories) > 0 ) {
             foreach ($categories as $category) {

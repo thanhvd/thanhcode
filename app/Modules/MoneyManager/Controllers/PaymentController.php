@@ -3,10 +3,10 @@
 namespace App\Modules\MoneyManager\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StorePayment;
+use App\Http\Requests\UpdatePayment;
 use App\Modules\MoneyManager\Models\Category;
 use App\Modules\MoneyManager\Repositories\CategoryRepository;
-use App\Modules\MoneyManager\Requests\StoreCategory;
-use App\Modules\MoneyManager\Requests\UpdateCategory;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -21,10 +21,10 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        $categories = CategoryRepository::getTreeData();
+        $payments = Auth::user()->payments;
 
-        return view('MoneyManager::category.index', [
-            'categories' => $categories
+        return view('MoneyManager::payment.index', [
+            'payments' => $payments
         ]);
     }
 
@@ -37,7 +37,7 @@ class PaymentController extends Controller
     {
         $categories = CategoryRepository::getTreeData();
 
-        return view('MoneyManager::category.create', [
+        return view('MoneyManager::payment.create', [
             'categories' => $categories
         ]);
     }
@@ -48,7 +48,7 @@ class PaymentController extends Controller
      * @param  App\Modules\MoneyManager\Requests\StoreCategory  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCategory $request)
+    public function store(StorePayment $request)
     {
         // Save category
         $category = new Category;
@@ -57,7 +57,7 @@ class PaymentController extends Controller
         // Check avatar uploaded?
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar')->store(
-                config('money_manager.category.avatar_storage_path') . '/' . $request->user()->id,
+                config('money_manager.payment.avatar_storage_path') . '/' . $request->user()->id,
                 'public'
             );
             $category->avatar = $avatar;
@@ -70,7 +70,7 @@ class PaymentController extends Controller
             $category->level = ++$parent->level;
         }
         $category->save();
-        $request->session()->flash('message', trans('MoneyManager::category.create.success'));
+        $request->session()->flash('message', trans('MoneyManager::payment.create.success'));
 
         return redirect()->route('categories.index');
     }
@@ -97,7 +97,7 @@ class PaymentController extends Controller
         $category = Category::find($id);
         $categories = CategoryRepository::getTreeData();
 
-        return view('MoneyManager::category.edit', [
+        return view('MoneyManager::payment.edit', [
             'category' => $category,
             'categories' => $categories
         ]);
@@ -110,14 +110,14 @@ class PaymentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCategory $request, $id)
+    public function update(UpdatePayment $request, $id)
     {
         // Save category
         $category = Category::find($id);
         $category->name = $request->name;
         // Check avatar uploaded?
         if ($request->hasFile('avatar')) {
-            $storePath = config('money_manager.category.avatar_storage_path') . '/' . $request->user()->id;
+            $storePath = config('money_manager.payment.avatar_storage_path') . '/' . $request->user()->id;
             // Delete old avatar file
             // if ($category->avatar && Storage::disk('public')->exists($category->avatar)) {
             //     Storage::disk('public')->delete($category->avatar);
@@ -134,7 +134,7 @@ class PaymentController extends Controller
             $category->level = ++$parent->level;
         }
         $category->save();
-        $request->session()->flash('message', trans('MoneyManager::category.edit.success'));
+        $request->session()->flash('message', trans('MoneyManager::payment.edit.success'));
 
         return redirect()->route('categories.index');
     }
@@ -153,9 +153,9 @@ class PaymentController extends Controller
             // TODO: Delete payments of this category
             $category->delete();
 
-            Session::flash('message', trans('MoneyManager::category.delete.success'));
+            Session::flash('message', trans('MoneyManager::payment.delete.success'));
         } else {
-            Session::flash('message', trans('MoneyManager::category.delete.children_exists'));
+            Session::flash('message', trans('MoneyManager::payment.delete.children_exists'));
         }
 
         return redirect()->route('categories.index');
