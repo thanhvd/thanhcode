@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Modules\MoneyManager\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePayment extends FormRequest
+class UpdatePayment extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

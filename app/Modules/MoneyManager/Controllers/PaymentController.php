@@ -3,11 +3,12 @@
 namespace App\Modules\MoneyManager\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StorePayment;
-use App\Http\Requests\UpdatePayment;
-use App\Modules\MoneyManager\Models\Category;
+use App\Modules\MoneyManager\Models\Payment;
 use App\Modules\MoneyManager\Repositories\CategoryRepository;
+use App\Modules\MoneyManager\Requests\StorePayment;
+use App\Modules\MoneyManager\Requests\UpdateCategory;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -48,28 +49,17 @@ class PaymentController extends Controller
      * @param  App\Modules\MoneyManager\Requests\StoreCategory  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCategory $request)
+    public function store(StorePayment $request)
     {
         // Save category
-        $category = new Category;
-        $category->user_id = Auth::user()->id;
-        $category->name = $request->name;
-        // Check avatar uploaded?
-        if ($request->hasFile('avatar')) {
-            $avatar = $request->file('avatar')->store(
-                config('money_manager.payment.avatar_storage_path') . '/' . $request->user()->id,
-                'public'
-            );
-            $category->avatar = $avatar;
-        }
-        // Check parent selected?
-        if ($request->parent_id) {
-            $parent = Category::find($request->parent_id);
+        $payment = new Payment;
+        $payment->user_id = Auth::user()->id;
+        $payment->amount = $request->amount;
+        $payment->paid_at = Carbon::createFromFormat(config('datetime.carbon.format'), $request->paid_at);
+        $payment->note = $request->note;
+        $payment->category_id = $request->category_id;
+        $payment->save();
 
-            $category->parent_id = $parent->id;
-            $category->level = ++$parent->level;
-        }
-        $category->save();
         $request->session()->flash('message', trans('MoneyManager::payment.create.success'));
 
         return redirect()->route('payments.index');
@@ -78,10 +68,10 @@ class PaymentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  Category $category
+     * @param  Payment $payment
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show(Payment $payment)
     {
 
     }
@@ -89,10 +79,10 @@ class PaymentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  Category $category
+     * @param  Payment $payment
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit(Payment $payment)
     {
         $payments = CategoryRepository::getTreeData();
 
@@ -106,10 +96,10 @@ class PaymentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  App\Modules\MoneyManager\Requests\UpdateCategory  $request
-     * @param  Category $category
+     * @param  Payment $payment
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCategory $request, Category $category)
+    public function update(UpdateCategory $request, Payment $payment)
     {
         // Save category
         $category->name = $request->name;
@@ -140,10 +130,10 @@ class PaymentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Category $category
+     * @param  Payment $payment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Payment $payment)
     {
         if ( count($category->children) == 0 ) {
             // TODO: Delete payments of this category
