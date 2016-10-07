@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title', trans('MoneyManager::category.create.title'))
-@section('page_header', trans('MoneyManager::category.create.page_header'))
-@section('page_header_description', trans('MoneyManager::category.create.page_header_description'))
+@section('title', trans('MoneyManager::payment.create.title'))
+@section('page_header', trans('MoneyManager::payment.create.page_header'))
+@section('page_header_description', trans('MoneyManager::payment.create.page_header_description'))
 
 @section('content')
     <div class="row">
@@ -11,7 +11,7 @@
           <!-- general form elements -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">{{ trans('MoneyManager::category.create.title') }}</h3>
+              <h3 class="box-title">{{ trans('MoneyManager::payment.create.title') }}</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
@@ -30,19 +30,21 @@
 
                 {{ csrf_field() }}
                 <div class="form-group">
-                  <label for="name">{{ trans('MoneyManager::category.create.labels.name') }}</label>
-                  <input type="text" class="form-control" name="name" id="name" placeholder="{{ trans('MoneyManager::category.create.placeholders.name') }}">
+                  <label for="amount">{{ trans('MoneyManager::payment.create.labels.amount') }}</label>
+                  <input type="number" class="form-control" name="amount" id="amount" placeholder="{{ trans('MoneyManager::payment.create.placeholders.amount') }}" step="1000">
                 </div>
                 <div class="form-group">
-                  <label for="avatar">{{ trans('MoneyManager::category.create.labels.avatar') }}</label>
-                  <input type="file" id="avatar" name="avatar">
-
-                  <p class="help-block">{{ trans('MoneyManager::category.create.descriptions.avatar') }}</p>
+                  <label for="paid_at">{{ trans('MoneyManager::payment.create.labels.paid_at') }}</label>
+                  <input type="datetime" class="form-control" name="paid_at" id="paid_at" placeholder="{{ trans('MoneyManager::payment.create.placeholders.paid_at') }}">
                 </div>
                 <div class="form-group">
-                  <label for="name">{{ trans('MoneyManager::category.create.labels.parent') }}</label>
-                  <select class="form-control select2" style="width: 100%" name="parent_id">
-                    <option value="">{{ trans('MoneyManager::category.create.labels.select_parent') }}</option>
+                  <label for="note">{{ trans('MoneyManager::payment.create.labels.note') }}</label>
+                  <textarea class="form-control" name="note" id="note" placeholder="{{ trans('MoneyManager::payment.create.placeholders.note') }}"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="category_id">{{ trans('MoneyManager::payment.create.labels.category') }}</label>
+                  <select class="form-control select2" style="width: 100%" name="category_id">
+                    <option value="">{{ trans('MoneyManager::payment.create.labels.select_category') }}</option>
                     @foreach ($categories as $item)
                       <option value="{{ $item->id }}">{!! str_repeat('&nbsp;', $item->level * 10) !!} -- {{ $item->name }}</option>
                     @endforeach
@@ -51,7 +53,7 @@
               </div>
               <!-- /.box-body -->
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">{{ trans('MoneyManager::category.create.buttons.submit') }}</button>
+                <button type="submit" class="btn btn-primary">{{ trans('MoneyManager::payment.create.buttons.submit') }}</button>
               </div>
             </form>
           </div>

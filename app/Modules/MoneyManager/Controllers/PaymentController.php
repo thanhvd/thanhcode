@@ -48,7 +48,7 @@ class PaymentController extends Controller
      * @param  App\Modules\MoneyManager\Requests\StoreCategory  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePayment $request)
+    public function store(StoreCategory $request)
     {
         // Save category
         $category = new Category;
@@ -72,34 +72,33 @@ class PaymentController extends Controller
         $category->save();
         $request->session()->flash('message', trans('MoneyManager::payment.create.success'));
 
-        return redirect()->route('categories.index');
+        return redirect()->route('payments.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        $category = Category::find($id);
+
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        $category = Category::find($id);
-        $categories = CategoryRepository::getTreeData();
+        $payments = CategoryRepository::getTreeData();
 
         return view('MoneyManager::payment.edit', [
             'category' => $category,
-            'categories' => $categories
+            'payments' => $payments
         ]);
     }
 
@@ -107,13 +106,12 @@ class PaymentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  App\Modules\MoneyManager\Requests\UpdateCategory  $request
-     * @param  int  $id
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePayment $request, $id)
+    public function update(UpdateCategory $request, Category $category)
     {
         // Save category
-        $category = Category::find($id);
         $category->name = $request->name;
         // Check avatar uploaded?
         if ($request->hasFile('avatar')) {
@@ -136,19 +134,17 @@ class PaymentController extends Controller
         $category->save();
         $request->session()->flash('message', trans('MoneyManager::payment.edit.success'));
 
-        return redirect()->route('categories.index');
+        return redirect()->route('payments.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        $category = Category::find($id);
-
         if ( count($category->children) == 0 ) {
             // TODO: Delete payments of this category
             $category->delete();
@@ -158,6 +154,6 @@ class PaymentController extends Controller
             Session::flash('message', trans('MoneyManager::payment.delete.children_exists'));
         }
 
-        return redirect()->route('categories.index');
+        return redirect()->route('payments.index');
     }
 }

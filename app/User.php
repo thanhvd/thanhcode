@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Modules\MoneyManager\Models\Category;
+use App\Modules\MoneyManager\Models\Payment;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -31,5 +32,10 @@ class User extends Authenticatable
     public function categories()
     {
         return $this->hasMany(Category::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
     }
 }

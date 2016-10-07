@@ -45,7 +45,7 @@
                   @endif
                 </div>
                 <div class="form-group">
-                  <label for="name">{{ trans('MoneyManager::category.edit.labels.parent') }}</label>
+                  <label for="parent_id">{{ trans('MoneyManager::category.edit.labels.parent') }}</label>
                   <select class="form-control select2" style="width: 100%" name="parent_id">
                     <option value="">{{ trans('MoneyManager::category.edit.labels.select_parent') }}</option>
                     @foreach ($categories as $item)

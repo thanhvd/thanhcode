@@ -40,7 +40,7 @@
                   <p class="help-block">{{ trans('MoneyManager::category.create.descriptions.avatar') }}</p>
                 </div>
                 <div class="form-group">
-                  <label for="name">{{ trans('MoneyManager::category.create.labels.parent') }}</label>
+                  <label for="parent_id">{{ trans('MoneyManager::category.create.labels.parent') }}</label>
                   <select class="form-control select2" style="width: 100%" name="parent_id">
                     <option value="">{{ trans('MoneyManager::category.create.labels.select_parent') }}</option>
                     @foreach ($categories as $item)

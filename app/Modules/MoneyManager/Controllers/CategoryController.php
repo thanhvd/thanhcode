@@ -78,23 +78,22 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        $category = Category::find($id);
+
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        $category = Category::find($id);
         $categories = CategoryRepository::getTreeData();
 
         return view('MoneyManager::category.edit', [
@@ -107,13 +106,12 @@ class CategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  App\Modules\MoneyManager\Requests\UpdateCategory  $request
-     * @param  int  $id
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCategory $request, $id)
+    public function update(UpdateCategory $request, Category $category)
     {
         // Save category
-        $category = Category::find($id);
         $category->name = $request->name;
         // Check avatar uploaded?
         if ($request->hasFile('avatar')) {
@@ -142,13 +140,11 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        $category = Category::find($id);
-
         if ( count($category->children) == 0 ) {
             // TODO: Delete payments of this category
             $category->delete();
