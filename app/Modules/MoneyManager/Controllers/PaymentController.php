@@ -22,6 +22,7 @@ class PaymentController extends Controller
      */
     public function index()
     {
+        setlocale(LC_MONETARY, 'vi_VN.UTF-8');
         $payments = Auth::user()->payments;
 
         return view('MoneyManager::payment.index', [
@@ -84,11 +85,11 @@ class PaymentController extends Controller
      */
     public function edit(Payment $payment)
     {
-        $payments = CategoryRepository::getTreeData();
+        $categories = CategoryRepository::getTreeData();
 
         return view('MoneyManager::payment.edit', [
-            'category' => $category,
-            'payments' => $payments
+            'payment' => $payment,
+            'categories' => $categories
         ]);
     }
 

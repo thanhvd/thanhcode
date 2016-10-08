@@ -14,7 +14,7 @@ class Payment extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at', 'paid_at'];
 
     public function category()
     {

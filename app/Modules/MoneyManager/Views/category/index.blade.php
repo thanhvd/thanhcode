@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('title', trans('MoneyManager::category.index.title'))
-@section('page_header', 'Category')
-@section('page_header_description', 'Index')
+@section('page_header', trans('MoneyManager::category.index.page_header'))
+@section('page_header_description', trans('MoneyManager::category.index.page_header_description'))
 
 @section('content')
   <!-- will be used to show any messages -->

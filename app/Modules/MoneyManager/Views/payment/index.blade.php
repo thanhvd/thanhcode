@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('title', trans('MoneyManager::payment.index.title'))
-@section('page_header', 'Payment')
-@section('page_header_description', 'Index')
+@section('page_header', trans('MoneyManager::payment.index.page_header'))
+@section('page_header_description', trans('MoneyManager::payment.index.page_header_description'))
 
 @section('content')
   <!-- will be used to show any messages -->
@@ -22,8 +22,10 @@
             <thead>
             <tr>
               <th>#</th>
-              <th>{{ trans('MoneyManager::payment.index.table.head.name') }}</th>
-              <th>{{ trans('MoneyManager::payment.index.table.head.avatar') }}</th>
+              <th>{{ trans('MoneyManager::payment.index.table.head.amount') }}</th>
+              <th>{{ trans('MoneyManager::payment.index.table.head.paid_at') }}</th>
+              <th>{{ trans('MoneyManager::payment.index.table.head.note') }}</th>
+              <th>{{ trans('MoneyManager::payment.index.table.head.category') }}</th>
               <th></th>
             </tr>
             </thead>
@@ -31,14 +33,11 @@
               @foreach ($payments as $payment)
                 <tr>
                   <td style="width:10px">{{ $loop->index + 1 }}.</td>
-                  <td>{!! str_repeat('&nbsp;', $payment->level * 10) !!} <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span> {{ $payment->name }}</td>
-                  <td>
-                    @if ($payment->avatar)
-                      <a><img src="{{ asset('storage/'.$payment->avatar) }}" style="width:20px;height:20px" /></a>
-                    @else
-                      <a><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></a>
-                    @endif
-                  </td>
+                  <!-- <td>{{ number_format($payment->amount, 0, '.', ',') }}</td> -->
+                  <td>{{ money_format('%n', $payment->amount) }}</td>
+                  <td>{{ $payment->paid_at->format(config('datetime.carbon.format')) }}</td>
+                  <td>{{ $payment->note }}</td>
+                  <td>{{ $payment->category->name }}</td>
                   <td>
                       <a href="{{ route('payments.edit', ['id' => $payment->id ]) }}"><span class="glyphicon glyphicon-edit"  aria-hidden="true"></span></a>&nbsp;&nbsp;<a href="javascript:submitDeleteForm('delete-form-{{ $payment->id }}')"><span class="glyphicon glyphicon-remove"  aria-hidden="true"></span></a>
                       <form id="delete-form-{{ $payment->id }}" role="form" action="{{ route('payments.destroy', ['id' => $payment->id ]) }}" method="POST">
