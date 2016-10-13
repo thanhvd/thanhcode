@@ -30,23 +30,29 @@
             </tr>
             </thead>
             <tbody>
-              @foreach ($payments as $payment)
-                <tr>
-                  <td style="width:10px">{{ $loop->index + 1 }}.</td>
-                  <!-- <td>{{ number_format($payment->amount, 0, '.', ',') }}</td> -->
-                  <td>{{ money_format('%n', $payment->amount) }}</td>
-                  <td>{{ $payment->paid_at->format(config('datetime.carbon.format')) }}</td>
-                  <td>{{ $payment->note }}</td>
-                  <td>{{ $payment->category->name }}</td>
-                  <td>
-                      <a href="{{ route('payments.edit', ['id' => $payment->id ]) }}"><span class="glyphicon glyphicon-edit"  aria-hidden="true"></span></a>&nbsp;&nbsp;<a href="javascript:submitDeleteForm('delete-form-{{ $payment->id }}')"><span class="glyphicon glyphicon-remove"  aria-hidden="true"></span></a>
-                      <form id="delete-form-{{ $payment->id }}" role="form" action="{{ route('payments.destroy', ['id' => $payment->id ]) }}" method="POST">
-                        {{ csrf_field() }}
-                        {{ method_field('DELETE') }}
-                      </form>
-                  </td>
-                </tr>
-              @endforeach
+                @if (count($payments) > 0)
+                  @foreach ($payments as $payment)
+                    <tr>
+                      <td style="width:10px">{{ $loop->index + 1 }}.</td>
+                      <!-- <td>{{ number_format($payment->amount, 0, '.', ',') }}</td> -->
+                      <td>{{ money_format('%n', $payment->amount) }}</td>
+                      <td>{{ $payment->paid_at->format(config('datetime.carbon.format')) }}</td>
+                      <td>{{ $payment->note }}</td>
+                      <td>{{ $payment->category->name }}</td>
+                      <td>
+                          <a href="{{ route('payments.edit', ['id' => $payment->id ]) }}"><span class="glyphicon glyphicon-edit"  aria-hidden="true"></span></a>&nbsp;&nbsp;<a href="javascript:submitDeleteForm('delete-form-{{ $payment->id }}')"><span class="glyphicon glyphicon-remove"  aria-hidden="true"></span></a>
+                          <form id="delete-form-{{ $payment->id }}" role="form" action="{{ route('payments.destroy', ['id' => $payment->id ]) }}" method="POST">
+                            {{ csrf_field() }}
+                            {{ method_field('DELETE') }}
+                          </form>
+                      </td>
+                    </tr>
+                  @endforeach
+                @else
+                    <tr>
+                        <td colspan="6">{{ trans('MoneyManager::payment.index.table.no_data') }}</td>
+                    </tr>
+                @endif
             </tbody>
           </table>
         </div>

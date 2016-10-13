@@ -10,7 +10,8 @@ return [
                 'name' => 'Name',
                 'avatar' => 'Avatar',
                 'parent' => 'Parent'
-            ]
+            ],
+            'no_data' => 'No category found'
         ],
         'confirm_message' => 'Are you sure you want to delete this category?'
     ],

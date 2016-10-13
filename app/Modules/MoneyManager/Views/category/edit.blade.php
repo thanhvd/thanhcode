@@ -33,7 +33,7 @@
 
                 <div class="form-group">
                   <label for="name">{{ trans('MoneyManager::category.edit.labels.name') }}</label>
-                  <input type="text" class="form-control" name="name" id="name" placeholder="{{ trans('MoneyManager::category.edit.placeholders.name') }}" value="{{ $category->name }}">
+                  <input type="text" class="form-control" name="name" id="name" placeholder="{{ trans('MoneyManager::category.edit.placeholders.name') }}" value="{{ old('name') ?: $category->name }}">
                 </div>
                 <div class="form-group">
                   <label for="avatar">{{ trans('MoneyManager::category.edit.labels.avatar') }}</label>
@@ -49,7 +49,7 @@
                   <select class="form-control select2" style="width: 100%" name="parent_id">
                     <option value="">{{ trans('MoneyManager::category.edit.labels.select_parent') }}</option>
                     @foreach ($categories as $item)
-                      <option value="{{ $item->id }}" {{ $item->id == $category->parent_id ? 'selected' : '' }} >{!! str_repeat('&nbsp;', $item->level * 10) !!} -- {{ $item->name }}</option>
+                      <option value="{{ $item->id }}" {{ $item->id == (old('parent_id') ?: $category->parent_id) ? 'selected' : '' }} >{!! str_repeat('&nbsp;', $item->level * 10) !!} -- {{ $item->name }}</option>
                     @endforeach
                   </select>
                 </div>

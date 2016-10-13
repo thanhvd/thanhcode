@@ -11,7 +11,8 @@ return [
                 'paid_at' => 'Paid at',
                 'note' => 'Note',
                 'category' => 'Category',
-            ]
+            ],
+            'no_data' => 'No payment found'
         ],
         'confirm_message' => 'Are you sure you want to delete this payment?'
     ],

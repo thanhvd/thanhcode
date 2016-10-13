@@ -31,7 +31,7 @@
                 {{ csrf_field() }}
                 <div class="form-group">
                   <label for="name">{{ trans('MoneyManager::category.create.labels.name') }}</label>
-                  <input type="text" class="form-control" name="name" id="name" placeholder="{{ trans('MoneyManager::category.create.placeholders.name') }}">
+                  <input type="text" class="form-control" name="name" id="name" placeholder="{{ trans('MoneyManager::category.create.placeholders.name') }}" value="{{ old('name') }}">
                 </div>
                 <div class="form-group">
                   <label for="avatar">{{ trans('MoneyManager::category.create.labels.avatar') }}</label>
@@ -44,7 +44,7 @@
                   <select class="form-control select2" style="width: 100%" name="parent_id">
                     <option value="">{{ trans('MoneyManager::category.create.labels.select_parent') }}</option>
                     @foreach ($categories as $item)
-                      <option value="{{ $item->id }}">{!! str_repeat('&nbsp;', $item->level * 10) !!} -- {{ $item->name }}</option>
+                      <option value="{{ $item->id }}" {{ $item->id == old('category_id') ? 'selected' : '' }}>{!! str_repeat('&nbsp;', $item->level * 10) !!} -- {{ $item->name }}</option>
                     @endforeach
                   </select>
                 </div>
