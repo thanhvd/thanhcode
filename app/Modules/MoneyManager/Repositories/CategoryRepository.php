@@ -26,10 +26,25 @@ class CategoryRepository
     {
         $data = [];
         $children = $category->children;
-        if ( count($children) > 0  ) {
+        if ( count($children) > 0 ) {
             foreach ($children as $item) {
                 $data[] = $item;
                 $data = array_merge($data, self::getChildrenTreeData($item));
+            }
+        }
+        return $data;
+    }
+
+    public static function getTreeData1($level = 0)
+    {
+        $data = [];
+
+        $categories = Auth::user()->categories()->where('level', $level)->get();
+
+        if ( count($categories) > 0 ) {
+            foreach ($categories as $category) {
+                $data[] = $category;
+                $data = array_merge($data, self::getChildrenTreeData($category));
             }
         }
         return $data;

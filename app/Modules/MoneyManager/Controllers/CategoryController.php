@@ -159,7 +159,7 @@ class CategoryController extends Controller
 
     public function getTreeData()
     {
-        $categories = CategoryRepository::getTreeData();
+        $categories = CategoryRepository::getTreeData1();
 
         $data = '{
             "total":7,
