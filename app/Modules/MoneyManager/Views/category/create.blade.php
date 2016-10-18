@@ -47,6 +47,7 @@
                       <option value="{{ $item->id }}" {{ $item->id == old('category_id') ? 'selected' : '' }}>{!! str_repeat('&nbsp;', $item->level * 10) !!} -- {{ $item->name }}</option>
                     @endforeach
                   </select>
+                  <input class="easyui-combotree" data-options="url:'money-manager/combotree-categories',method:'get',label:'Select Node:',labelPosition:'top'" style="width:100%">
                 </div>
               </div>
               <!-- /.box-body -->

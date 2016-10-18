@@ -4,5 +4,6 @@ Route::group(['prefix' => 'money-manager', 'namespace' => 'App\Modules\MoneyMana
     Route::resource('categories', 'CategoryController');
     Route::resource('payments', 'PaymentController');
 
-    Route::get('treegrid-categories', 'CategoryController@getTreeData');
+    Route::get('treegrid-categories', 'CategoryController@getTreeGridData');
+    Route::get('combotree-categories', 'CategoryController@getComboTreeData');
 });

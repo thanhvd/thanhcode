@@ -35,7 +35,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = CategoryRepository::getTreeData();
+        $categories = CategoryRepository::getComboTreeData();
 
         return view('MoneyManager::category.create', [
             'categories' => $categories
@@ -157,26 +157,25 @@ class CategoryController extends Controller
         return redirect()->route('categories.index');
     }
 
-    public function getTreeData()
+    public function getTreeGridData()
     {
-        $categories = CategoryRepository::getTreeData1();
+        $categories = CategoryRepository::getTreeGridData();
 
-        $data = '{
-            "total":7,
-            "rows":[
-                {"id":1,"name":"All Tasks","begin":"3/4/2010","end":"3/20/2010","progress":60,"iconCls":"icon-ok"},
-                {"id":2,"name":"Designing","begin":"3/4/2010","end":"3/10/2010","progress":100,"_parentId":1,"state":"closed"},
-                {"id":21,"name":"Database","persons":2,"begin":"3/4/2010","end":"3/6/2010","progress":100,"_parentId":2},
-                {"id":22,"name":"UML","persons":1,"begin":"3/7/2010","end":"3/8/2010","progress":100,"_parentId":2},
-                {"id":23,"name":"Export Document","persons":1,"begin":"3/9/2010","end":"3/10/2010","progress":100,"_parentId":2},
-                {"id":3,"name":"Coding","persons":2,"begin":"3/11/2010","end":"3/18/2010","progress":80},
-                {"id":4,"name":"Testing","persons":1,"begin":"3/19/2010","end":"3/20/2010","progress":20}
-            ],
-            "footer":[
-               {"name":"Total Persons:","persons":7,"iconCls":"icon-sum"}
-            ]
-        }';
+        return response()->json([
+            'total' => count($categories),
+            'rows' => $categories
+        ]);
+    }
 
-        return response()->json(json_decode($data));
+    public function getComboTreeData()
+    {
+        // Default value
+        $defaultValue = [ 'id' => '', 'text' => trans('MoneyManager::category.create.labels.select_parent') ];
+
+        $categories = CategoryRepository::getComboTreeData();
+
+        $categories->prepend($defaultValue);
+
+        return response()->json($categories);
     }
 }

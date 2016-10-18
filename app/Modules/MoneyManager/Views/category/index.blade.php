@@ -5,6 +5,13 @@
 @section('page_header_description', trans('MoneyManager::category.index.page_header_description'))
 
 @section('content')
+  <style>
+    .panel-title, .tree-title, .datagrid-header .datagrid-cell span,
+    .datagrid-cell, .datagrid-cell-group, .datagrid-header-rownumber, .datagrid-cell-rownumber {
+      font-size: 14px;
+    }
+  </style>
+
   <!-- will be used to show any messages -->
   @if (Session::has('message'))
       <div class="alert alert-info">{{ Session::get('message') }}</div>
@@ -29,23 +36,27 @@
             ">
             <thead>
                 <tr>
-                    <th data-options="field:'name',width:180,editor:'text'">Task Name</th>
-                    <th data-options="field:'persons',width:60,align:'right',editor:'numberbox'">Persons</th>
-                    <th data-options="field:'begin',width:80,editor:'datebox'">Begin Date</th>
-                    <th data-options="field:'end',width:80,editor:'datebox'">End Date</th>
-                    <th data-options="field:'progress',width:120,formatter:formatProgress,editor:'numberbox'">Progress</th>
+                    <th data-options="field:'name',width:50,editor:'text'">{{ trans('MoneyManager::category.index.table.head.name') }}</th>
+                    <th data-options="field:'avatar',width:20,editor:'text',align:'center',formatter:formatAvatar">{{ trans('MoneyManager::category.index.table.head.avatar') }}</th>
+                    <!-- <th data-option="field:'action',width:20,editor:'text',align:'center',formatter:formatAction"></th> -->
                 </tr>
             </thead>
         </table>
         <script type="text/javascript">
-            function formatProgress(value){
+            function formatAvatar(value){
                 if (value){
-                    var s = '<div style="width:100%;border:1px solid #ccc">' +
-                            '<div style="width:' + value + '%;background:#cc0000;color:#fff">' + value + '%' + '</div>'
-                            '</div>';
+                    var s = '<a><img src=\"{{ asset("storage") }}/' + value + '\" style="width:20px;height:20px" /></a>';
                     return s;
                 } else {
-                    return '';
+                    return '<a><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></a>';
+                }
+            }
+            function formatAvatar(value){
+                if (value){
+                    var s = '<a><img src=\"{{ asset("storage") }}/' + value + '\" style="width:20px;height:20px" /></a>';
+                    return s;
+                } else {
+                    return '<a><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></a>';
                 }
             }
             var editingId;

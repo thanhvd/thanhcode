@@ -7,46 +7,27 @@ use Auth;
 
 class CategoryRepository
 {
-    public static function getTreeData($level = 0)
+    const TOP_LEVEL = 0;
+
+    public static function getTreeGridData()
     {
-        $data = [];
-
-        $categories = Auth::user()->categories()->where('level', $level)->get();
-
-        if ( count($categories) > 0 ) {
-            foreach ($categories as $category) {
-                $data[] = $category;
-                $data = array_merge($data, self::getChildrenTreeData($category));
-            }
-        }
-        return $data;
+        return Auth::user()->categories()->select('id', 'name', 'avatar', 'parent_id AS _parentId')->get();
     }
 
-    public static function getChildrenTreeData(Category $category)
+    public static function getComboTreeData(Category $parentCategory = null)
     {
-        $data = [];
-        $children = $category->children;
-        if ( count($children) > 0 ) {
-            foreach ($children as $item) {
-                $data[] = $item;
-                $data = array_merge($data, self::getChildrenTreeData($item));
-            }
+        if ($parentCategory) {
+            $categories = $parentCategory->children()->select('id', 'name AS text')->get();
+        } else {
+            $categories = Auth::user()->categories()->select('id', 'name AS text')->where('level', self::TOP_LEVEL)->get();
         }
-        return $data;
-    }
-
-    public static function getTreeData1($level = 0)
-    {
-        $data = [];
-
-        $categories = Auth::user()->categories()->where('level', $level)->get();
 
         if ( count($categories) > 0 ) {
-            foreach ($categories as $category) {
-                $data[] = $category;
-                $data = array_merge($data, self::getChildrenTreeData($category));
+            foreach ($categories as $k => $category) {
+                $categories[$k]->children = self::getComboTreeData($category);
             }
         }
-        return $data;
+
+        return $categories;
     }
 }
