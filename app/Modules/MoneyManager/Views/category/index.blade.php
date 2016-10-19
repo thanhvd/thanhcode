@@ -5,97 +5,93 @@
 @section('page_header_description', trans('MoneyManager::category.index.page_header_description'))
 
 @section('content')
-  <style>
-    .panel-title, .tree-title, .datagrid-header .datagrid-cell span,
-    .datagrid-cell, .datagrid-cell-group, .datagrid-header-rownumber, .datagrid-cell-rownumber {
-      font-size: 14px;
-    }
-  </style>
-
   <!-- will be used to show any messages -->
   @if (Session::has('message'))
       <div class="alert alert-info">{{ Session::get('message') }}</div>
   @endif
 
   <div class="row">
-    <div class="col-xs-12">
+    <!-- Create form -->
+    <div class="col-md-6">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">{{ trans('MoneyManager::category.create.title') }}</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form role="form" action="{{ route('categories.store') }}" method="post" enctype="multipart/form-data">
+          <div class="box-body">
+            @if (count($errors) > 0)
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+
+            {{ csrf_field() }}
+            <div class="form-group">
+              <label for="name">{{ trans('MoneyManager::category.create.labels.name') }}</label>
+              <input type="text" class="form-control" name="name" id="name" placeholder="{{ trans('MoneyManager::category.create.placeholders.name') }}" value="{{ old('name') }}">
+            </div>
+            <div class="form-group">
+              <label for="avatar">{{ trans('MoneyManager::category.create.labels.avatar') }}</label>
+              <input type="file" id="avatar" name="avatar">
+
+              <p class="help-block">{{ trans('MoneyManager::category.create.descriptions.avatar') }}</p>
+            </div>
+            <div class="form-group">
+              <label for="parent_id">{{ trans('MoneyManager::category.create.labels.parent') }}</label>
+              <input class="easyui-combotree" style="width:100%" name="parent_id"
+                data-options="
+                    url: 'money-manager/combotree-categories',
+                    method: 'get',
+                    formatter: formatComboTree
+              ">
+            </div>
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <button type="submit" class="btn btn-primary">{{ trans('MoneyManager::category.create.buttons.submit') }}</button>
+          </div>
+        </form>
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- List category -->
+    <div class="col-md-6">
       <div class="box">
         <!-- /.box-header -->
-        <table id="tg" class="easyui-treegrid" title="{{ trans('MoneyManager::category.index.title') }}" style="width:100%;height:250px"
+        <table id="tg" class="easyui-treegrid" title="{{ trans('MoneyManager::category.index.title') }}" style="width:100%;"
             data-options="
-                iconCls: 'icon-ok',
                 rownumbers: true,
                 animate: true,
-                collapsible: true,
                 fitColumns: true,
                 url: 'money-manager/treegrid-categories',
                 method: 'get',
                 idField: 'id',
                 treeField: 'name',
-                showFooter: true
+                toolbar: '#category-toolbar',
             ">
             <thead>
                 <tr>
-                    <th data-options="field:'name',width:50,editor:'text'">{{ trans('MoneyManager::category.index.table.head.name') }}</th>
-                    <th data-options="field:'avatar',width:20,editor:'text',align:'center',formatter:formatAvatar">{{ trans('MoneyManager::category.index.table.head.avatar') }}</th>
-                    <!-- <th data-option="field:'action',width:20,editor:'text',align:'center',formatter:formatAction"></th> -->
+                    <th data-options="field:'name',width:50,editor:'text',formatter:formatName">{{ trans('MoneyManager::category.index.table.head.name') }}</th>
                 </tr>
             </thead>
         </table>
-        <script type="text/javascript">
-            function formatAvatar(value){
-                if (value){
-                    var s = '<a><img src=\"{{ asset("storage") }}/' + value + '\" style="width:20px;height:20px" /></a>';
-                    return s;
-                } else {
-                    return '<a><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></a>';
-                }
-            }
-            function formatAvatar(value){
-                if (value){
-                    var s = '<a><img src=\"{{ asset("storage") }}/' + value + '\" style="width:20px;height:20px" /></a>';
-                    return s;
-                } else {
-                    return '<a><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></a>';
-                }
-            }
-            var editingId;
-            function edit(){
-                if (editingId != undefined){
-                    $('#tg').treegrid('select', editingId);
-                    return;
-                }
-                var row = $('#tg').treegrid('getSelected');
-                if (row){
-                    editingId = row.id
-                    $('#tg').treegrid('beginEdit', editingId);
-                }
-            }
-            function save(){
-                if (editingId != undefined){
-                    var t = $('#tg');
-                    t.treegrid('endEdit', editingId);
-                    editingId = undefined;
-                    var persons = 0;
-                    var rows = t.treegrid('getChildren');
-                    for(var i=0; i<rows.length; i++){
-                        var p = parseInt(rows[i].persons);
-                        if (!isNaN(p)){
-                            persons += p;
-                        }
-                    }
-                    var frow = t.treegrid('getFooterRows')[0];
-                    frow.persons = persons;
-                    t.treegrid('reloadFooter');
-                }
-            }
-            function cancel(){
-                if (editingId != undefined){
-                    $('#tg').treegrid('cancelEdit', editingId);
-                    editingId = undefined;
-                }
-            }
-        </script>
+        <div id="category-toolbar">
+            <a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="edit()">Edit User</a>
+            <a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroy()">Remove User</a>
+        </div>
+
+        <form id="destroy-form" role="form" method="POST">
+            {{ csrf_field() }}
+            {{ method_field('DELETE') }}
+        </form>
       </div>
       <!-- /.box -->
     </div>
@@ -106,9 +102,55 @@
 
 @section('page_script')
 <script type="text/javascript">
-    function submitDeleteForm(formId) {
-        if (confirm("{{ trans('MoneyManager::category.index.confirm_message') }}")) {
-            $('#' + formId).submit();
+    $(function(){
+        // Auto resize treegrid when toggle sidebar
+        $(document).on('click', $.AdminLTE.options.sidebarToggleSelector, function (e) {
+            e.preventDefault();
+            setTimeout(function(){
+                $('#tg').treegrid('resize');
+           }, 300);
+        });
+    });
+    // Format name column, add avatar prepend name
+    function formatName(value, row){
+        var avatar = '<a style="color:#f39c12; border:black"><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span></a>';
+
+        if (row.avatar){
+            avatar = '<a><img src=\"{{ asset("storage") }}/' + row.avatar + '\" style="width:16px;height:18px" /></a>';
+        }
+        return avatar + '&nbsp;&nbsp;' + value;
+    }
+    // Format name column, add avatar prepend name
+    function formatComboTree(node) {
+        var avatar = '<a style="color:#f39c12; border:black"><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span></a>';
+
+        if (node.avatar){
+            avatar = '<a><img src=\"{{ asset("storage") }}/' + node.avatar + '\" style="width:16px;height:18px" /></a>';
+        }
+        return avatar + '&nbsp;&nbsp;' + node.text;
+    }
+    // Redirect to edit page
+    function edit() {
+        var row = $('#tg').treegrid('getSelected');
+        if (row){
+            url = "{{ route('categories.edit', ['id' => ':id' ]) }}";
+            url = url.replace(':id', row.id);
+
+            location.href = url;
+        }
+    }
+    // Destroy category
+    function destroy() {
+        var row = $('#tg').treegrid('getSelected');
+        if (row){
+            action = "{{ route('categories.destroy', ['id' => ':id' ]) }}";
+            action = action.replace(':id', row.id);
+
+            $('#destroy-form').attr('action', action);
+
+            if (confirm("{{ trans('MoneyManager::category.index.confirm_message') }}")) {
+                $('#destroy-form').submit();
+            }
         }
     }
 </script>

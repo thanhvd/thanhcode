@@ -33,6 +33,9 @@
     <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5/themes/material/easyui.css">
     <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5/themes/icon.css">
 
+    <!-- My Style -->
+    <link rel="stylesheet" type="text/css" href="assets/css/app.css">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

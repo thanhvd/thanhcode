@@ -37,7 +37,7 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        $categories = CategoryRepository::getTreeData();
+        $categories = CategoryRepository::getComboTreeData();
 
         return view('MoneyManager::payment.create', [
             'categories' => $categories
@@ -85,7 +85,7 @@ class PaymentController extends Controller
      */
     public function edit(Payment $payment)
     {
-        $categories = CategoryRepository::getTreeData();
+        $categories = CategoryRepository::getComboTreeData();
 
         return view('MoneyManager::payment.edit', [
             'payment' => $payment,

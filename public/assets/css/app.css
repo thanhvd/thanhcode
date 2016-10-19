@@ -1,0 +1,9 @@
+.panel-title, .tree-title,
+.datagrid-header .datagrid-cell span,
+.datagrid-cell, .datagrid-cell-group, .datagrid-header-rownumber, .datagrid-cell-rownumber {
+  font-size: 14px;
+}
+
+.tree-icon{
+    display:none;
+}

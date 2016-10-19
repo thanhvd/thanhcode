@@ -94,7 +94,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        $categories = CategoryRepository::getTreeData();
+        $categories = CategoryRepository::getTreeGridData();
 
         return view('MoneyManager::category.edit', [
             'category' => $category,
