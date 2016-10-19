@@ -21,7 +21,7 @@
     <div class="col-xs-12">
       <div class="box">
         <!-- /.box-header -->
-        <table id="tg" class="easyui-treegrid" title="Editable TreeGrid" style="width:100%;height:250px"
+        <table id="tg" class="easyui-treegrid" title="{{ trans('MoneyManager::category.index.title') }}" style="width:100%;height:250px"
             data-options="
                 iconCls: 'icon-ok',
                 rownumbers: true,

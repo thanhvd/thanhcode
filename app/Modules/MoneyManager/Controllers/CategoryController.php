@@ -21,7 +21,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = CategoryRepository::getTreeData();
+        $categories = CategoryRepository::getTreeGridData();
 
         return view('MoneyManager::category.index', [
             'categories' => $categories

@@ -11,7 +11,7 @@ class CategoryRepository
 
     public static function getTreeGridData()
     {
-        return Auth::user()->categories()->select('id', 'name', 'avatar', 'parent_id AS _parentId')->get();
+        return Auth::user()->categories()->select('id', 'name', 'avatar', 'parent_id AS _parentId', 'avatar AS iconCls')->get();
     }
 
     public static function getComboTreeData(Category $parentCategory = null)
