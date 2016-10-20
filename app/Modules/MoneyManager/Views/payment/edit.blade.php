@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title', trans('MoneyManager::category.edit.title'))
-@section('page_header', trans('MoneyManager::category.edit.page_header'))
-@section('page_header_description', trans('MoneyManager::category.edit.page_header_description'))
+@section('title', trans('MoneyManager::payment.edit.title'))
+@section('page_header', trans('MoneyManager::payment.edit.page_header'))
+@section('page_header_description', trans('MoneyManager::payment.edit.page_header_description'))
 
 @section('content')
     <div class="row">
@@ -11,52 +11,43 @@
           <!-- general form elements -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">{{ trans('MoneyManager::category.edit.title') }}</h3>
+              <h3 class="box-title">{{ trans('MoneyManager::payment.edit.title') }}</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form" action="{{ route('categories.update', ['id' => $category->id ]) }}" method="POST" enctype="multipart/form-data">
+            <form role="form" action="{{ route('payments.update', [ 'id' => $payment->id ]) }}" method="post">
               <div class="box-body">
-                @if (count($errors) > 0)
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif
+                @include('shared.errors')
 
                 {{ csrf_field() }}
                 {{ method_field('PUT') }}
 
                 <div class="form-group">
-                  <label for="name">{{ trans('MoneyManager::category.edit.labels.name') }}</label>
-                  <input type="text" class="form-control" name="name" id="name" placeholder="{{ trans('MoneyManager::category.edit.placeholders.name') }}" value="{{ $category->name }}">
+                  <label for="amount">{{ trans('MoneyManager::payment.edit.labels.amount') }}</label>
+                  <input type="text" class="form-control" id="amount" value="{{ old('amount') ?: $payment->amount }}">
+                  <input type="hidden" name="amount" value="{{ old('amount') ?: $payment->amount }}">
                 </div>
                 <div class="form-group">
-                  <label for="avatar">{{ trans('MoneyManager::category.edit.labels.avatar') }}</label>
-                  <input type="file" id="avatar" name="avatar">
-
-                  <p class="help-block">{{ trans('MoneyManager::category.edit.descriptions.avatar') }}</p>
-                  @if ($category->avatar)
-                    <img src="{{ asset('storage/'.$category->avatar) }}" style="width:20px;height:20px" />
-                  @endif
+                  <label for="paid_at">{{ trans('MoneyManager::payment.edit.labels.paid_at') }}</label>
+                  <input type="text" class="form-control" name="paid_at" id="paid_at" placeholder="{{ trans('MoneyManager::payment.edit.placeholders.paid_at') }}" value="{{ old('paid_at') ?: $payment->paid_at }}">
                 </div>
                 <div class="form-group">
-                  <label for="name">{{ trans('MoneyManager::category.edit.labels.parent') }}</label>
-                  <select class="form-control select2" style="width: 100%" name="parent_id">
-                    <option value="">{{ trans('MoneyManager::category.edit.labels.select_parent') }}</option>
-                    @foreach ($categories as $item)
-                      <option value="{{ $item->id }}" {{ $item->id == $category->parent_id ? 'selected' : '' }} >{!! str_repeat('&nbsp;', $item->level * 10) !!} -- {{ $item->name }}</option>
-                    @endforeach
-                  </select>
+                  <label for="note">{{ trans('MoneyManager::payment.edit.labels.note') }}</label>
+                  <textarea class="form-control" name="note" id="note" placeholder="{{ trans('MoneyManager::payment.edit.placeholders.note') }}">{{ old('note') ?: $payment->note }}</textarea>
+                </div>
+                <div class="form-group">
+                  <label for="category_id">{{ trans('MoneyManager::payment.edit.labels.category') }}</label>
+                  <input class="easyui-combotree" style="width:100%" name="category_id" value="{{ old('category_id') ?: $payment->category_id }}"
+                    data-options="
+                        url: 'money-manager/combotree-categories',
+                        method: 'get',
+                        formatter: formatComboTree
+                  ">
                 </div>
               </div>
               <!-- /.box-body -->
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">{{ trans('MoneyManager::category.edit.buttons.submit') }}</button>
+                <button type="submit" class="btn btn-primary">{{ trans('MoneyManager::payment.edit.buttons.submit') }}</button>
               </div>
             </form>
           </div>
@@ -68,12 +59,45 @@
 @section('page_script')
 <script>
   $(function () {
-    //Initialize Select2 Elements
-    $(".select2").select2({
-        templateSelection: function(data, container) {
-            return $.trim(data.text.replace(/\-/g, ''));
+    $.amount = {
+        setValue: function() {
+            $('input[name=amount]').val($("#amount").inputmask('unmaskedvalue'));
+        }
+    }
+
+    $('#paid_at').daterangepicker({
+        timePicker: true,
+        timePickerIncrement: 15,
+        locale: {
+            format: "{{ config('datetime.moment.format') }}"
+        },
+        singleDatePicker: true,
+        startDate: moment()
+    });
+
+    $("#amount").inputmask('999.999.999.999 VNĐ', {
+        numericInput: true,
+        rightAlign: false,
+        oncomplete: function() {
+            $.amount.setValue();
+        },
+        onincomplete: function() {
+            $.amount.setValue();
+        },
+        onKeyDown: function() {
+            $.amount.setValue();
         }
     });
   });
+
+  // Format name column, add avatar prepend name
+    function formatComboTree(node) {
+        var avatar = '<a style="color:#f39c12; border:black"><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span></a>';
+
+        if (node.avatar){
+            avatar = '<a><img src=\"{{ asset("storage") }}/' + node.avatar + '\" style="width:16px;height:18px" /></a>';
+        }
+        return avatar + '&nbsp;&nbsp;' + node.text;
+    }
 </script>
 @endsection

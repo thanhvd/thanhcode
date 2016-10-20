@@ -8,20 +8,20 @@
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
           <li class="dropdown messages-menu">
-            @include('_partials.header_navbar_message')
+            @include('layouts._partials.header_navbar_message')
           </li>
           <!-- /.messages-menu -->
           <!-- Notifications Menu -->
           <li class="dropdown notifications-menu">
-            @include('_partials.header_navbar_notification')
+            @include('layouts._partials.header_navbar_notification')
           </li>
           <!-- Tasks Menu -->
           <li class="dropdown tasks-menu">
-            @include('_partials.header_navbar_task')
+            @include('layouts._partials.header_navbar_task')
           </li>
           <!-- User Account Menu -->
           <li class="dropdown user user-menu">
-            @include('_partials.header_navbar_user')
+            @include('layouts._partials.header_navbar_user')
           </li>
           <!-- Control Sidebar Toggle Button -->
           <li>

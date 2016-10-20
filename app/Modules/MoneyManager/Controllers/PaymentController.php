@@ -7,6 +7,7 @@ use App\Modules\MoneyManager\Models\Payment;
 use App\Modules\MoneyManager\Repositories\CategoryRepository;
 use App\Modules\MoneyManager\Requests\StorePayment;
 use App\Modules\MoneyManager\Requests\UpdateCategory;
+use App\Modules\MoneyManager\Requests\UpdatePayment;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -37,11 +38,8 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        $categories = CategoryRepository::getComboTreeData();
 
-        return view('MoneyManager::payment.create', [
-            'categories' => $categories
-        ]);
+        return view('MoneyManager::payment.create');
     }
 
     /**
@@ -67,17 +65,6 @@ class PaymentController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  Payment $payment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Payment $payment)
-    {
-
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  Payment $payment
@@ -85,44 +72,27 @@ class PaymentController extends Controller
      */
     public function edit(Payment $payment)
     {
-        $categories = CategoryRepository::getComboTreeData();
-
         return view('MoneyManager::payment.edit', [
-            'payment' => $payment,
-            'categories' => $categories
+            'payment' => $payment
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  App\Modules\MoneyManager\Requests\UpdateCategory  $request
+     * @param  App\Modules\MoneyManager\Requests\UpdatePayment  $request
      * @param  Payment $payment
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCategory $request, Payment $payment)
+    public function update(UpdatePayment $request, Payment $payment)
     {
-        // Save category
-        $category->name = $request->name;
-        // Check avatar uploaded?
-        if ($request->hasFile('avatar')) {
-            $storePath = config('money_manager.payment.avatar_storage_path') . '/' . $request->user()->id;
-            // Delete old avatar file
-            // if ($category->avatar && Storage::disk('public')->exists($category->avatar)) {
-            //     Storage::disk('public')->delete($category->avatar);
-            // }
-            // Store new avatar file
-            $avatar = $request->file('avatar')->store($storePath, 'public');
-            $category->avatar = $avatar;
-        }
-        // Check parent selected?
-        if ($request->parent_id) {
-            $parent = Category::find($request->parent_id);
+        // Save payment
+        $payment->amount = $request->amount;
+        $payment->paid_at = Carbon::createFromFormat(config('datetime.carbon.format'), $request->paid_at);
+        $payment->note = $request->note;
+        $payment->category_id = $request->category_id;
+        $payment->save();
 
-            $category->parent_id = $parent->id;
-            $category->level = ++$parent->level;
-        }
-        $category->save();
         $request->session()->flash('message', trans('MoneyManager::payment.edit.success'));
 
         return redirect()->route('payments.index');
@@ -136,14 +106,9 @@ class PaymentController extends Controller
      */
     public function destroy(Payment $payment)
     {
-        if ( count($category->children) == 0 ) {
-            // TODO: Delete payments of this category
-            $category->delete();
+        $payment->delete();
 
-            Session::flash('message', trans('MoneyManager::payment.delete.success'));
-        } else {
-            Session::flash('message', trans('MoneyManager::payment.delete.children_exists'));
-        }
+        Session::flash('message', trans('MoneyManager::payment.delete.success'));
 
         return redirect()->route('payments.index');
     }

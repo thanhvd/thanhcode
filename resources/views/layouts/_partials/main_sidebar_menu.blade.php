@@ -7,7 +7,6 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="money-manager/categories/create">Create</a></li>
             <li><a href="money-manager/categories">Index</a></li>
           </ul>
         </li>

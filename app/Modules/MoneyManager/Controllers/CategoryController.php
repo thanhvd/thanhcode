@@ -21,25 +21,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = CategoryRepository::getTreeGridData();
-
-        return view('MoneyManager::category.index', [
-            'categories' => $categories
-        ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $categories = CategoryRepository::getComboTreeData();
-
-        return view('MoneyManager::category.create', [
-            'categories' => $categories
-        ]);
+        return view('MoneyManager::category.index');
     }
 
     /**
@@ -76,17 +58,6 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  Category $category
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Category $category)
-    {
-
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  Category $category
@@ -94,11 +65,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        $categories = CategoryRepository::getTreeGridData();
 
         return view('MoneyManager::category.edit', [
-            'category' => $category,
-            'categories' => $categories
+            'category' => $category
         ]);
     }
 

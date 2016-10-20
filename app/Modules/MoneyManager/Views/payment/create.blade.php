@@ -15,18 +15,9 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form" action="{{ route('payments.store') }}" method="post" enctype="multipart/form-data">
+            <form role="form" action="{{ route('payments.store') }}" method="post">
               <div class="box-body">
-                @if (count($errors) > 0)
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif
+                @include('shared.errors')
 
                 {{ csrf_field() }}
                 <div class="form-group">
@@ -44,12 +35,12 @@
                 </div>
                 <div class="form-group">
                   <label for="category_id">{{ trans('MoneyManager::payment.create.labels.category') }}</label>
-                  <select class="form-control select2" style="width: 100%" name="category_id">
-                    <option value="">{{ trans('MoneyManager::payment.create.labels.select_category') }}</option>
-                    @foreach ($categories as $item)
-                      <option value="{{ $item->id }}" {{ $item->id == old('category_id') ? 'selected' : '' }}>{!! str_repeat('&nbsp;', $item->level * 10) !!} -- {{ $item->name }}</option>
-                    @endforeach
-                  </select>
+                  <input class="easyui-combotree" style="width:100%" name="category_id" value="{{ old('category_id') }}"
+                    data-options="
+                        url: 'money-manager/combotree-categories',
+                        method: 'get',
+                        formatter: formatComboTree
+                  ">
                 </div>
               </div>
               <!-- /.box-body -->
@@ -66,17 +57,11 @@
 @section('page_script')
 <script>
   $(function () {
-      $.amount = {
+    $.amount = {
         setValue: function() {
             $('input[name=amount]').val($("#amount").inputmask('unmaskedvalue'));
         }
-      }
-    //Initialize Select2 Elements
-    $(".select2").select2({
-        templateSelection: function(data, container) {
-            return $.trim(data.text.replace(/\-/g, ''));
-        }
-    });
+    }
 
     $('#paid_at').daterangepicker({
         timePicker: true,
@@ -88,7 +73,7 @@
         startDate: moment()
     });
 
-    $("#amount").inputmask('999.999.999.9999 VNĐ', {
+    $("#amount").inputmask('999.999.999.999 VNĐ', {
         numericInput: true,
         rightAlign: false,
         oncomplete: function() {
@@ -102,5 +87,15 @@
         }
     });
   });
+
+  // Format name column, add avatar prepend name
+    function formatComboTree(node) {
+        var avatar = '<a style="color:#f39c12; border:black"><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span></a>';
+
+        if (node.avatar){
+            avatar = '<a><img src=\"{{ asset("storage") }}/' + node.avatar + '\" style="width:16px;height:18px" /></a>';
+        }
+        return avatar + '&nbsp;&nbsp;' + node.text;
+    }
 </script>
 @endsection

@@ -4,14 +4,14 @@
     <section class="sidebar">
 
       <!-- Sidebar user panel (optional) -->
-      @include('_partials.main_sidebar_user_panel')
+      @include('layouts._partials.main_sidebar_user_panel')
 
       <!-- search form (Optional) -->
-      @include('_partials.main_sidebar_search_form')
+      @include('layouts._partials.main_sidebar_search_form')
       <!-- /.search form -->
 
       <!-- Sidebar Menu -->
-      @include('_partials.main_sidebar_menu')
+      @include('layouts._partials.main_sidebar_menu')
       <!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->

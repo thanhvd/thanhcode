@@ -32,7 +32,6 @@ return [
             'paid_at' => 'Enter Paid at',
             'note' => 'Enter Note'
         ],
-        'descriptions' => [ 'avatar' => 'Upload avatar of this payment' ],
         'buttons' => [ 'submit' => 'Submit' ],
         'success' => 'Successfully created payment'
     ],
@@ -41,13 +40,17 @@ return [
         'page_header' => 'Payment',
         'page_header_description' => 'Edit',
         'labels' => [
-            'name' => 'Name',
-            'avatar' => 'Avatar',
-            'parent' => 'Parent',
-            'select_parent' => 'Select parent'
+            'amount' => 'Amount',
+            'paid_at' => 'Paid at',
+            'note' => 'Note',
+            'category' => 'Category',
+            'select_category' => 'Select category'
         ],
-        'placeholders' => [ 'name' => 'Enter name' ],
-        'descriptions' => [ 'avatar' => 'Upload avatar of this payment' ],
+        'placeholders' => [
+            'amount' => 'Enter Amount',
+            'paid_at' => 'Enter Paid at',
+            'note' => 'Enter Note'
+        ],
         'buttons' => [ 'submit' => 'Submit' ],
         'success' => 'Successfully edited payment'
     ],

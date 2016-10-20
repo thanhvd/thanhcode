@@ -13,7 +13,7 @@ class UpdatePayment extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class UpdatePayment extends FormRequest
     public function rules()
     {
         return [
-            //
+            'amount' => 'required|numeric',
+            'paid_at' => 'required|date_format:' . config('datetime.carbon.format'),
+            'note' => 'string',
+            'category_id' => 'required|integer|exists:mm_categories,id'
         ];
     }
 }

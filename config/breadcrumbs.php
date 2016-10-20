@@ -3,6 +3,6 @@
 return [
 
 	// 'view' => 'breadcrumbs::bootstrap3',
-	'view' => '_partials/breadcrumbs',
+	'view' => 'layouts/_partials/breadcrumbs',
 
 ];

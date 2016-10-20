@@ -31,7 +31,7 @@ return [
         'success' => 'Successfully created category'
     ],
     'edit' => [
-        'title' => 'Edit new Category',
+        'title' => 'Edit Category',
         'page_header' => 'Category',
         'page_header_description' => 'Edit',
         'labels' => [
